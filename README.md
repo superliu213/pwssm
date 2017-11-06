@@ -80,6 +80,9 @@ $ mvn clean
 ```
 - 其中modules 业务逻辑代码模块中每一个模块由可以分为mock、page.js文件和html展示页面
 
+## 界面
+![主页](https://github.com/superliu213/resources/blob/master/images/%E4%B8%BB%E9%A1%B5.png)
+
 ## 问答
 > 工具
   - 如何去除在eclipse部署项目时，去除部署路径中的项目名  
