@@ -89,7 +89,7 @@ $ mvn clean
 
 ![运行监控](https://github.com/superliu213/resources/blob/master/images/%E8%BF%90%E8%A1%8C%E7%9B%91%E6%8E%A7.png)
 
-![生成代码](https://github.com/superliu213/resources/blob/master/images/%E8%BF%90%E8%A1%8C%E7%9B%91%E6%8E%A7.png)
+![生成代码](https://github.com/superliu213/resources/blob/master/images/%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81.png)
 
 ## 问答
 > 工具
