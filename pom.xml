@@ -248,7 +248,7 @@
     </dependencies>
 
     <build>
-        <finalName>pwm</finalName>
+        <finalName>pwssm</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
