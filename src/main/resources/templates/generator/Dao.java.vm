@@ -1,0 +1,13 @@
+package ${package}.dao;
+
+import com.springapp.common.dao.BaseDao;
+import ${package}.entity.${className};
+
+public interface ${className}Dao extends BaseDao<${className}> {
+
+}
+
+
+
+
+

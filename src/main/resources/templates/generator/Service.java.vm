@@ -1,0 +1,27 @@
+package ${package}.service;
+
+import com.springapp.common.page.PageBean;
+import com.springapp.common.page.PageParam;
+import ${package}.entity.${className};
+
+import java.util.List;
+import java.util.Map;
+
+public interface ${className}Service {
+#if($listPage == 'listPage')
+
+    public PageBean get${className}PageBean(PageParam pageParam, Map<String, Object> paramMap);
+#end
+#if($remove == 'remove')
+
+    public void remove${className}ByKey(Long id);
+#end
+#if($add == 'add')
+
+    public void add${className}(${className} ${classname});
+#end
+#if($update == 'update')
+
+    public void update${className}(${className} ${classname});
+#end
+}

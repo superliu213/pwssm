@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springapp.mvc.dao.impl.FunctionDaoImpl">
+
+	<sql id="table"> sys_function </sql>
+	<sql id="sys_function"> sys_function </sql>
+	<sql id="sys_role_function"> sys_role_function </sql>
+	<sql id="sys_user_role"> sys_user_role </sql>
+
+	<resultMap id="beanMap" type="function">
+		<id property="id" column="ID" />
+		<result property="version" column="VERSION" />
+		<result property="functionId" column="FUNCTION_ID" />
+		<result property="functionName" column="FUNCTION_NAME" />
+		<result property="functionType" column="FUNCTION_TYPE" />
+		<result property="functionParentId" column="FUNCTION_PARENT_ID" />
+		<result property="functionUrl" column="FUNCTION_URL" />
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="functionLogo" column="FUNCTION_LOGO" />
+		<result property="buttonPosition" column="BUTTON_POSITION" />
+		<result property="remark" column="REMARK" />
+
+	</resultMap>
+
+	<insert id="insert" parameterType="function" keyProperty="id" useGeneratedKeys="true">
+		insert into
+		<include refid="table" />
+		(VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL,
+		 ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+		values (0, #{functionId}, #{functionName}, #{functionType}, #{functionParentId}, #{functionUrl},
+		#{orderNo}, #{functionLogo}, #{buttonPosition}, #{remark})
+	</insert>
+
+	<!-- 更新:version+1 实现乐观锁 -->
+	<update id="update" parameterType="function">
+		update
+		<include refid="table" />
+		<set>
+			VERSION = #{version}+1 ,
+			FUNCTION_ID = #{functionId},
+			FUNCTION_NAME = #{functionName},
+			FUNCTION_TYPE = #{functionType},
+			FUNCTION_PARENT_ID = #{functionParentId},
+			FUNCTION_URL = #{functionUrl},
+			ORDER_NO = #{orderNo},
+			FUNCTION_LOGO = #{functionLogo},
+			BUTTON_POSITION = #{buttonPosition},
+			REMARK = #{remark}
+		</set>
+		<where>
+			ID = #{id} and VERSION = #{version}
+		</where>
+	</update>
+
+	<sql id="condition_sql">
+		<if test="functionId != null and functionId !='' "> and FUNCTION_ID = #{functionId}</if>
+		<if test="functionName != null and functionName !='' "> and FUNCTION_NAME like CONCAT('%', #{functionName}, '%')</if>
+		<if test="functionType != null and functionType !='' "> and FUNCTION_TYPE = #{functionType}</if>
+		<if test="functionParentId != null and functionParentId !='' "> and FUNCTION_PARENT_ID = #{functionParentId}</if>
+	</sql>
+
+	<select id="listBy" parameterType="java.util.Map" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		order by FUNCTION_ID, ORDER_NO
+	</select>
+
+	<select id="listPage" parameterType="java.util.Map" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		<![CDATA[ order by ID desc]]>
+	</select>
+
+	<select id="getById" parameterType="long" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		where ID = #{id}
+	</select>
+
+	<select id="deleteById" parameterType="long" resultType="int">
+		delete from
+		<include refid="table" />
+		where ID = #{id}
+	</select>
+
+	<select id="getFunctionsNoButtonByAdmin" parameterType="java.util.Map" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		where FUNCTION_TYPE &lt; 3
+		order by FUNCTION_TYPE, ORDER_NO
+	</select>
+
+	<select id="getFunctionsNoButtonByUserId" parameterType="java.util.Map" resultMap="beanMap">
+		SELECT * FROM (SELECT c.*
+		FROM  <include refid="sys_user_role" /> a, <include refid="sys_role_function" /> b, <include refid="sys_function" /> c
+		WHERE a.role_id = b.role_id AND b.function_id = c.function_id AND a.user_id = #{userId}
+		UNION
+		SELECT e.* FROM <include refid="sys_function" /> e
+		WHERE e.function_id IN (SELECT DISTINCT c.function_parent_id
+		FROM <include refid="sys_user_role" /> a, <include refid="sys_role_function" /> b, <include refid="sys_function" /> c
+		WHERE a.role_id = b.role_id AND c.function_type = 3 AND b.function_id = c.function_id
+		AND a.user_id = #{userId})
+		UNION
+		SELECT f.* FROM <include refid="sys_function" /> f
+		WHERE f.FUNCTION_ID IN (SELECT DISTINCT e.FUNCTION_PARENT_ID
+		FROM <include refid="sys_function" /> e
+		WHERE e.function_id IN (SELECT DISTINCT c.function_parent_id
+		FROM <include refid="sys_user_role" /> a, <include refid="sys_role_function" /> b, <include refid="sys_function" /> c
+		WHERE a.role_id = b.role_id AND c.function_type = 3
+		AND b.function_id = c.function_id AND a.user_id = #{userId})
+		)) ss where ss.function_type &lt; 3
+
+	</select>
+
+	<select id="getButtonPosition" parameterType="java.util.Map" resultType="String">
+		select d.button_position from
+		<include refid="sys_function" /> d
+		where d.button_position LIKE  CONCAT(#{formName}, '%') AND d.button_position NOT IN   (select c.button_position
+		from sys_user_role a , sys_role_function b , sys_function c
+		where a.role_id = b.role_id and b.function_id = c.function_id
+		and a.user_id = #{userId} and c.button_position like CONCAT(#{formName}, '%'))
+	</select>
+
+	<select id="getFunctionUsed" parameterType="long" resultType="long">
+		SELECT b.id
+		FROM <include refid="sys_role_function" /> a,<include refid="table" /> b
+		WHERE a.function_id = b.function_id
+		AND b.id = #{id}
+		UNION
+		SELECT c.id
+		FROM <include refid="table" /> c
+		WHERE c.function_id IN (
+		SELECT DISTINCT b.function_parent_id
+		FROM <include refid="sys_role_function" /> a,<include refid="table" /> b
+		WHERE b.function_type = 3
+		AND a.function_id = b.function_id )
+		AND c.id =#{id}
+		UNION
+		SELECT d.id
+		FROM <include refid="table" /> d
+		WHERE d.FUNCTION_ID IN (
+		SELECT DISTINCT c.FUNCTION_PARENT_ID
+		FROM <include refid="table" /> c
+		WHERE c.function_id IN (
+		SELECT DISTINCT b.function_parent_id
+		FROM <include refid="sys_role_function" /> a,<include refid="table" /> b
+		WHERE b.function_type = 3
+		AND a.function_id = b.function_id))
+		AND d.id =#{id} ;
+	</select>
+
+</mapper>

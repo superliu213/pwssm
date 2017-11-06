@@ -1,0 +1,30 @@
+--非超级管理员用户控制按钮显示
+--一级菜单（需要自定义）
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES ( 0, '1', '权限管理', 1, '-1', '#', 1, 'fa-diamond', null, '1');
+
+--二级菜单（需要自定义）
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES (0, '5', '用户管理', 2, '1', './modules/authority/${classname}/${classname}.html', 101, '', null, '1');
+
+--按钮（需要自定义）
+#if($add == 'add')
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES (0, '13', '添加', 3, '5', '', 501, '', '${classname}Form.add_table', '');
+#end
+#if($update == 'update')
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES (0, '13', '编辑', 3, '5', '', 501, '', '${classname}Form.update_table', '');
+#end
+#if($remove == 'remove')
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES (0, '13', '删除', 3, '5', '', 501, '', '${classname}Form.remove_table', '');
+#end
+#if($listPage == 'listPage'||$byId == 'byId'||$listBy == 'listBy')
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES (0, '13', '查询', 3, '5', '', 501, '', '${classname}Form.query_table', '');
+#end
+#if($reset == 'reset')
+INSERT INTO sys_function (VERSION, FUNCTION_ID, FUNCTION_NAME, FUNCTION_TYPE, FUNCTION_PARENT_ID, FUNCTION_URL, ORDER_NO, FUNCTION_LOGO, BUTTON_POSITION, REMARK)
+VALUES (0, '13', '重置', 3, '5', '', 501, '', '${classname}Form.reset_table', '');
+#end

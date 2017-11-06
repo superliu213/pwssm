@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springapp.mvc.dao.impl.UserDaoImpl">
+
+	<sql id="table"> sys_user </sql>
+
+	<resultMap id="beanMap" type="user">
+		<id property="id" column="ID" />
+		<result property="version" column="VERSION" />
+		<result property="userId" column="USER_ID" />
+		<result property="userPassWord" column="USER_PASS_WORD" />
+		<result property="userName" column="USER_NAME" />
+		<result property="userTelephone" column="USER_TELEPHONE" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="userBirthday" column="USER_BIRTHDAY" />
+		<result property="userIdCard" column="USER_ID_CARD" />
+		<result property="ifValid" column="IF_VALID" />
+		<result property="userValidityPeriod" column="USER_VALIDITY_PERIOD" />
+		<result property="pwValidityPeriod" column="PW_VALIDITY_PERIOD" />
+		<result property="remark" column="REMARK" />
+
+	</resultMap>
+
+	<insert id="insert" parameterType="user" keyProperty="id" useGeneratedKeys="true">
+		insert into
+		<include refid="table" />
+		(VERSION, USER_ID, USER_PASS_WORD, USER_NAME, USER_TELEPHONE,
+		USER_EMAIL, USER_BIRTHDAY, USER_ID_CARD, IF_VALID,
+		USER_VALIDITY_PERIOD, PW_VALIDITY_PERIOD, REMARK)
+		values (0, #{userId}, #{userPassWord}, #{userName}, #{userTelephone}, #{userEmail},
+		#{userBirthday}, #{userIdCard}, #{ifValid}, #{userValidityPeriod}, #{pwValidityPeriod}, #{remark})
+	</insert>
+
+	<!-- 更新:version+1 实现乐观锁 -->
+	<update id="update" parameterType="user">
+		update
+		<include refid="table" />
+		<set>
+			VERSION = #{version}+1 ,
+			USER_ID = #{userId},
+			USER_PASS_WORD = #{userPassWord},
+			USER_NAME= #{userName},
+			USER_TELEPHONE= #{userTelephone},
+			USER_EMAIL= #{userEmail},
+			USER_BIRTHDAY= #{userBirthday},
+			USER_ID_CARD= #{userIdCard},
+			IF_VALID= #{ifValid},
+			USER_VALIDITY_PERIOD= #{userBirthday},
+			PW_VALIDITY_PERIOD= #{pwValidityPeriod},
+			REMARK = #{remark}
+		</set>
+		<where>
+			ID = #{id} and VERSION = #{version}
+		</where>
+	</update>
+
+	<!-- 更新:version+1 实现乐观锁 -->
+	<update id="updatePassword" parameterType="user">
+		update
+		<include refid="table" />
+		<set>
+			VERSION = #{version}+1 ,
+			USER_PASS_WORD = #{userPassWord},
+		</set>
+		<where>
+			ID = #{id} and VERSION = #{version}
+		</where>
+	</update>
+
+	<select id="listBy" parameterType="java.util.Map" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+	</select>
+
+	<select id="listPage" parameterType="java.util.Map" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		<![CDATA[ order by ID desc]]>
+	</select>
+
+	<select id="getById" parameterType="long" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		where ID = #{id}
+	</select>
+
+	<select id="deleteById" parameterType="long" resultType="int">
+		delete from
+		<include refid="table" />
+		where ID = #{id}
+	</select>
+
+	<sql id="condition_sql">
+		<if test="userId != null and userId !='' "> and USER_ID = #{userId}</if>
+		<if test="userName != null and userName !='' "> and USER_NAME like CONCAT('%', #{userName}, '%')</if>
+		<if test="ifValid != null and ifValid !=''"> and IF_VALID =#{ifValid} </if>
+	</sql>
+
+	<select id="getUserByUserIdAndPassword" parameterType="java.util.Map" resultMap="beanMap">
+		select * from
+		<include refid="table" />
+		where USER_ID = #{userId} and USER_PASS_WORD = #{userPassWord}
+	</select>
+
+
+</mapper>

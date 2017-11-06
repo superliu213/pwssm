@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springapp.mvc.dao.impl.CodeDaoImpl">
+
+	<sql id="table">information_schema.tables</sql>
+	<sql id="columns">information_schema.columns</sql>
+
+	<resultMap id="beanMap" type="tables">
+		<result property="tableName" column="TABLE_NAME" />
+		<result property="engine" column="ENGINE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="tableComment" column="TABLE_COMMENT" />
+	</resultMap>
+
+	<resultMap id="columnsMap" type="columns">
+		<result property="columnName" column="COLUMN_NAME" />
+		<result property="dataType" column="DATA_TYPE" />
+		<result property="columnComment" column="COLUMN_COMMENT" />
+		<result property="columnKey" column="COLUMN_KEY" />
+		<result property="extra" column="EXTRA" />
+	</resultMap>
+
+	<select id="listPage" parameterType="java.util.Map" resultMap="beanMap">
+		select TABLE_NAME,TABLE_COMMENT,ENGINE,CREATE_TIME from
+		<include refid="table" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<sql id="condition_sql">
+		table_schema = (select database())
+		<if test="tableName != null and tableName !='' "> and TABLE_NAME like CONCAT('%', #{tableName}, '%')</if>
+		<if test="tableComment != null and tableComment !='' "> and TABLE_COMMENT like CONCAT('%', #{tableComment}, '%')</if>
+	</sql>
+
+	<select id="getTable" parameterType="String" resultMap="beanMap">
+		select TABLE_NAME,TABLE_COMMENT,ENGINE,CREATE_TIME from
+		<include refid="table" />
+		where TABLE_NAME = #{tableName}
+	</select>
+
+	<select id="getColumns" resultType="String" resultMap="columnsMap">
+		select COLUMN_NAME , DATA_TYPE , COLUMN_COMMENT , COLUMN_KEY , EXTRA from
+		<include refid="columns" /> where table_name = #{tableName} and table_schema = (select database()) order by ordinal_position
+	</select>
+
+</mapper>

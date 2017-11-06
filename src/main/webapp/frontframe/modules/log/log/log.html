@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>日志查询</title>
+
+  <link rel="import" href="../../common/head.html">
+
+</head>
+
+<body class="gray-bg">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>日志查询</h5>
+          </div>
+          <div class="ibox-content">
+            <form id="logForm" class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-1 control-label">发生时间</label>
+                <div class="col-sm-6">
+                  <input placeholder="开始时间" class="form-control layer-date" id="startTime" name="startTime">
+                  <input placeholder="结束时间" class="form-control layer-date" id="endTime" name="endTime">
+                </div>
+                <label class="col-sm-1 control-label">操作员</label>
+                <div class="col-sm-3">
+                  <input type="text" name="operatorId" class="form-control" maxlength=10>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-1 control-label">日志类型</label>
+                <div class="col-sm-4">
+                  <input type="text" name="logType" class="form-control" maxlength=10>
+                </div>
+                <label class="col-sm-2 control-label">日志等级</label>
+                <div class="col-sm-4">
+                  <input type="text" name="logLevel" class="form-control" maxlength=10>
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-offset-5">
+
+                  <button id="query_table" class="btn btn-primary" type="button">查询</button>
+                  <button id="reset_form" class="btn btn-primary" type="button">重置</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>数据</h5>
+          </div>
+          <div id="main" class="ibox-content">
+            <table id="pw_table" data-toggle="table" data-ajax="dataLoad" data-height="500" data-pagination="true" data-side-pagination="server" data-query-params="queryParams" data-page-list="[10, 20, 50]">
+              <thead>
+                <tr>
+                  <th data-field="id">序号</th>
+                  <th data-field="occurTime" data-formatter="timeFormatter">发生时间</th>
+                  <th data-field="operatorId">操作员</th>
+                  <th data-field="logType">日志类型</th>
+                  <th data-field="logLevel">日志等级</th>
+                  <th data-field="logDesc">日志描述</th>
+                  <th data-field="ipAddress">操作员IP</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <link rel="import" href="../../common/rootBase.html">
+	<link rel="import" href="../../common/rootPlugin.html">
+	<script src="../../../js/plugins/layer/laydate/laydate.js"></script>
+	<link rel="import" href="../../common/rootUseDefine.html">
+	<script src="mock/mockData.js"></script>
+	<script src="page.js"></script>
+
+</body>
+
+</html>

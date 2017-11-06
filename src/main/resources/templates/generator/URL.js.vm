@@ -1,0 +1,6 @@
+${classname}:{
+#if($remove == 'remove')
+    remove: "${classname}/remove",
+#end
+    list: "${classname}/list"
+},

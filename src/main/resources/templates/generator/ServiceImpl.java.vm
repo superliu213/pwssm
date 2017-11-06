@@ -1,0 +1,55 @@
+package ${package}.service.impl;
+
+import com.springapp.common.exceptions.ApplicationException;
+import com.springapp.common.page.PageBean;
+import com.springapp.common.page.PageParam;
+import com.springapp.common.service.BaseServiceImpl;
+import ${package}.dao.${className}Dao;
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+@Service("${classname}Service")
+@Transactional
+public class ${className}ServiceImpl extends BaseServiceImpl implements ${className}Service {
+
+    @Autowired
+    ${className}Dao ${classname}Dao;
+#if($listPage == 'listPage')
+
+    @Override
+    public PageBean get${className}PageBean(PageParam pageParam, Map<String, Object> paramMap){
+        PageBean pageBean = ${classname}Dao.listPage(pageParam, paramMap);
+        return pageBean;
+    }
+#end
+#if($remove == 'remove')
+
+    @Override
+    public void remove${className}ByKey(Long id){
+        ${classname}Dao.deleteById(id);
+    }
+#end
+#if($add == 'add')
+
+    @Override
+    public void add${className}(${className} ${classname}){
+        ${classname}Dao.insert(${classname});
+    }
+#end
+#if($update == 'update')
+
+    @Override
+    public void update${className}(${className} ${classname}){
+        ${classname}Dao.update(${classname});
+    }
+#end
+}

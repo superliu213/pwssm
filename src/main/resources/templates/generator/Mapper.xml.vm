@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package}.dao.impl.${className}DaoImpl">
+
+    <sql id="table"> ${tableName} </sql>
+
+    <resultMap id="beanMap" type="${classname}">
+#foreach ($column in $columns)
+#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+      <result property="${column.attrname}" column="${column.columnName}" />
+#else
+      <id property="${column.attrname}" column="${column.columnName}" />
+#end
+#end
+    </resultMap>
+#if($add == 'add')
+
+    <insert id="insert" parameterType="${classname}" keyProperty="id" useGeneratedKeys="true">
+        insert into
+        <include refid="table" />
+        (#foreach($column in $columns)#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')$column.columnName#if($velocityCount != $columns.size()), #end#end#end)
+        values (#foreach($column in $columns)#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')#{$column.attrname}#if($velocityCount != $columns.size()), #end#end#end)
+    </insert>
+#end
+#if($update == 'update')
+
+    <!-- 更新:version+1 实现乐观锁 -->
+    <update id="update" parameterType="${classname}">
+        update
+        <include refid="table" />
+        <set>
+        #foreach ($column in $columns)#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')#if($column.attrname == 'version')$column.columnName = #{$column.attrname}+1#if($velocityCount != $columns.size()), #end#else$column.columnName = #{$column.attrname}#if($velocityCount != $columns.size()), #end#end#end#end
+        </set>
+        <where>
+            ID = #{id} and VERSION = #{version}
+        </where>
+    </update>
+#end
+#if($listBy == 'listBy')
+
+    <select id="listBy" parameterType="java.util.Map" resultMap="beanMap">
+        select * from
+        <include refid="table" />
+    </select>
+#end
+#if($listPage == 'listPage')
+
+    <select id="listPage" parameterType="java.util.Map" resultMap="beanMap">
+        select * from
+        <include refid="table" />
+        <where>
+            <include refid="condition_sql" />
+        </where>
+        <![CDATA[ order by ID desc]]>
+    </select>
+
+    <sql id="condition_sql">
+#foreach($column in $columns)
+        <if test="$column.attrname != null and $column.attrname.trim() != ''"> and $column.columnName = #{$column.attrname} </if>
+#end
+    </sql>
+#end
+#if($getById == 'getById')
+
+    <select id="getById" parameterType="long" resultMap="beanMap">
+        select * from
+        <include refid="table" />
+        where ID = #{id}
+    </select>
+#end
+#if($remove == 'remove')
+
+    <select id="deleteById" parameterType="long" resultType="int">
+        delete from
+        <include refid="table" />
+        where ID = #{id}
+    </select>
+#end
+</mapper>

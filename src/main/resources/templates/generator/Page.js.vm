@@ -1,0 +1,32 @@
+var dataLoadUrl = interUrl.basic + interUrl.${classname}.list;
+#if($remove == 'remove')
+var removeTableUrl =  interUrl.basic + interUrl.${classname}.remove;
+#end
+var form = "${classname}Form";
+var module = "${classname}";
+
+$(document).ready(function() {
+#if($add == 'add')
+    $("#add_table").on("click", fnAddTable);
+#end
+#if($update == 'update')
+    $("#update_table").on("click", fnUpdateTable);
+#end
+#if($remove == 'remove')
+    $("#remove_table").on("click", fnRemoveTable);
+#end
+#if($listPage == 'listPage'||$byId == 'byId'||$listBy == 'listBy')
+    $("#query_table").on("click", fnQueryTable);
+#end
+#if($add == 'add'||$update == 'update')
+    $("#save_dialog").on("click", fnSaveDialog);
+#end
+#if($reset == 'reset')
+    $("#reset_form").on("click", fnResetForm);
+#end
+
+    $("#pw_table").bootstrapTable('hideColumn', 'id');
+    $("#pw_table").bootstrapTable('hideColumn', 'version');
+
+    pageFunction();
+});

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>代码生成</title>
+
+  <link rel="import" href="../../common/head.html">
+
+</head>
+
+<body class="gray-bg">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>代码生成</h5>
+          </div>
+          <div class="ibox-content">
+            <form id="codeForm" class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">表名称</label>
+                <div class="col-sm-4">
+                  <input type="text" name="tableName" class="form-control" maxlength=10>
+                </div>
+                <label class="col-sm-2 control-label">表描述</label>
+                <div class="col-sm-4">
+                  <input type="text" name="tableComment" class="form-control" maxlength=10>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">生成策略</label>
+                <div class="col-sm-10">
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="add" value="add" checked="">增</label>
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="remove" value="remove" checked="">删</label>
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="update" value="update" checked="">改</label>
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="reset" value="reset" checked="">重置</label>
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="listPage" value="listPage" checked="">查(listPage)</label>
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="byId" value="byId">查(byId)</label>
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" name="listBy" value="listBy">查(listBy)</label>
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-offset-4">
+                  <button id="create_code" class="btn btn-primary" type="button">生成</button>
+                  <button id="query_table" class="btn btn-primary" type="button">查询</button>
+                  <button id="reset_form" class="btn btn-primary" type="button">重置</button>
+				</div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>数据</h5>
+          </div>
+          <div id="main" class="ibox-content">
+            <table id="pw_table" data-toggle="table" data-ajax="dataLoad" data-click-to-select="true" data-height="500" data-pagination="true" data-side-pagination="server" data-query-params="queryParams" data-page-list="[10, 20, 50]">
+              <thead>
+                <tr>
+                  <th data-field="state" data-checkbox="true"></th>
+                  <th data-field="tableName">表名称</th>
+                  <th data-field="tableComment">表描述</th>
+                  <th data-field="engine">engine</th>
+                  <th data-field="createTime" data-formatter="timeFormatter">创建时间</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <link rel="import" href="../../common/rootBase.html">
+  <link rel="import" href="../../common/rootPlugin.html">
+
+  <script src="../../../js/plugins/layer/laydate/laydate.js"></script>
+  <script src="../../../js/demo/form-advanced-demo.js"></script>
+
+  <link rel="import" href="../../common/rootUseDefine.html">
+  <script src="page.js"></script>
+
+</body>
+
+</html>
