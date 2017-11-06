@@ -2,4 +2,4 @@
 .metadata
 .recommenders
 .idea
-pwm.iml
+*.iml
