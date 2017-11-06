@@ -81,15 +81,15 @@ $ mvn clean
 - 其中modules 业务逻辑代码模块中每一个模块由可以分为mock、page.js文件和html展示页面
 
 ## 界面
-![登录](https://github.com/superliu213/resources/blob/master/images/%E7%99%BB%E5%BD%95.png)
+![登录](https://github.com/superliu213/resources/blob/master/images/pwssm/%E7%99%BB%E5%BD%95.png)
 
-![主页](https://github.com/superliu213/resources/blob/master/images/%E4%B8%BB%E9%A1%B5.png)
+![主页](https://github.com/superliu213/resources/blob/master/images/pwssm/%E4%B8%BB%E9%A1%B5.png)
 
-![用户管理](https://github.com/superliu213/resources/blob/master/images/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.png)
+![用户管理](https://github.com/superliu213/resources/blob/master/images/pwssm/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.png)
 
-![运行监控](https://github.com/superliu213/resources/blob/master/images/%E8%BF%90%E8%A1%8C%E7%9B%91%E6%8E%A7.png)
+![运行监控](https://github.com/superliu213/resources/blob/master/images/pwssm/%E8%BF%90%E8%A1%8C%E7%9B%91%E6%8E%A7.png)
 
-![生成代码](https://github.com/superliu213/resources/blob/master/images/%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81.png)
+![生成代码](https://github.com/superliu213/resources/blob/master/images/pwssm/%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81.png)
 
 ## 问答
 > 工具
