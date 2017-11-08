@@ -173,15 +173,11 @@ $ mvn clean
   >name用来绑定报表组件id，value是真实值，displayValue用来页面中获取显示值
 > 后台
   - 整体主要框架是什么？  
-  spring3+springmvc+hibernate4
-  - 数据库连接池使用的是哪个？  
-  proxool
-  - web.xml配置哪些内容？  
+  spring3+springmvc+mybatis
+  - 数据库连接池使用的是哪个？  
+  druid
+  - web.xml配置哪些内容？  
   - spring-config配置哪些内容？  
-  - OpenSessionInViewFilter是什么？  
-  OpenSessionInViewFilter的主要功能是用来把一个Hibernate Session和一次完整的请求过程对应的线程相绑定
-  - java melody是什么？  
-  应用程序性能监控
   - smartbi后台如何嵌入？  
   主要是通过smartbiSessionMonitorServlet，还需要使用一个代理程序
   - spring mvc 如何实现json数据交互？  
@@ -207,8 +203,6 @@ $ mvn clean
   - DataSource配置  
   - sessionfactory配置  
   - 日志的配置  
-  - basehibernateDao配置以及作用  
-    通过注解绑定到sessionfactory，主要作用是提供dao层接口的实现，在Service中进行调用
   - 常量管理  
     ApplicationGlobalNames.java和common/constansts目录
   - 表设计和表关系  
