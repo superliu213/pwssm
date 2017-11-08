@@ -159,7 +159,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity> extends SqlSessionDaoSup
 		// 统计总记录数
 		Object countObject = (Object) getSqlSession().selectOne(getStatement(SQL_LIST_PAGE),
 				new ExecutorInterceptor.CountParameter(paramMap));
-		Long count = Long.valueOf(countObject.toString());
+		Long count = Long.valueOf(countObject == null ? "0" : countObject.toString());
 
 		// 是否统计当前分页条件下的数据：1:是，其他为否
 		Object isCount = paramMap.get("isCount");
